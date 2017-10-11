@@ -312,9 +312,7 @@ class Backend_with_sensors(Backend):
         for node in self.network.nodes.itervalues():
             if node.node_id != 1:
                 sensorsList.append([node.node_id, node.product_name])
-        return jsonify(sensorsList)
-
-        return "this method returns the list of sensors"
+        return jsonify([sensor for sensor in sensorsList])
 
     def get_temperature(self, n):
 
@@ -388,14 +386,10 @@ class Backend_with_sensors(Backend):
         #### COMPLETE THIS METHOD ##############
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady and n != 1 and "timestamp" + str(node.node_id) in self.timestamps:
-                values = node.get_battery_level()
-                for value in values.itervalues():
-                    val = round(value.data, 1)
-                    #        if len(node.location) < 3:
-                    #            node.location = configpi.sensors[str(node.node_id)][:4]
-                    return jsonify(controller=name, sensor=node.node_id, location=node.location,
-                                   type=value.label.lower(),
-                                   updateTime=self.timestamps["timestamp" + str(node.node_id)], value=val)
+                value = node.get_battery_level()
+                return jsonify(controller=name, sensor=node.node_id, location=node.location,
+                     updateTime=self.timestamps["timestamp" + str(node.node_id)], value=value)
+
         return "this method this method gets the battery measure of a specific sensor node"
 
     def get_all_Measures(self, n):
@@ -423,8 +417,12 @@ class Backend_with_dimmers(Backend):
 
     def get_dimmers(self):
         #### COMPLETE THIS METHOD ##############
+	dimmersList = []
+        for node in self.network.nodes.itervalues():
+            if node.product_name == 'ZE27':
+                dimmersList.append([node.node_id, node.product_name])
+        return jsonify([dimmer for dimmer in dimmersList])
 
-        return "this method returns the list of dimmers"
 
     def get_dimmer_level(self, n):
         #### COMPLETE THIS METHOD ##############
