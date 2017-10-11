@@ -249,13 +249,7 @@ class Backend():
         listNodes = []
         for node in self.network.nodes.itervalues():
             listNodes.append([node.node_id, node.product_name])
-        return jsonify(listNodes=listNodes)
-
-        '''for node in self.network.nodes.itervalues():
-            nodeToAdd1 = ['id='+str(self.nodeToDict(node)["Node_ID"]),'name='+str(self.nodeToDict(node)["node_name"])]
-            listNodes.append(nodeToAdd1)
-        return jsonify(listNodes=listNodes)'''
-	#return "this method returns the list of nodes "
+        return jsonify([x for x in listNodes])
 
     def set_node_location(self, n, value):
 
