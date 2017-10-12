@@ -223,9 +223,11 @@ class Backend():
 
     def removeNode(self):
 
-        #### COMPLETE THIS METHOD ##############
-
-        return "this method passes the controller to exclusion mode and gets it out of it after 20 seconds "
+        controller = self.network.controller
+        if (controller.begin_command_remove_device()):
+            return jsonify(result="Succes go into exclusion mode")
+        else:
+            return jsonify(result="Fail to go into exclusion mode")
 
     def get_nodes_list(self):
 
