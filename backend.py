@@ -391,16 +391,29 @@ class Backend_with_sensors(Backend):
 
     def get_all_Measures(self, n):
 
-        measures_labels = ["Battery Level", "Relative Humidity", "Luminance", "Temperature", "Sensor"]
         all_measures ={};
 
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady and node.product_name=="MultiSensor 6" and "timestamp" + str(node.node_id) in self.timestamps:
+                all_measures = {}
+                all_measures["controller"] = node.product_name
+                all_measures["location"] = node.location
+                all_measures["sensor"] = node.node_id
+                all_measures["uptateTime"] = self.timestamps["timestamp" + str(node.node_id)]
                 values = node.get_values("All", "All", "All", "All", "All")
-                for value in values:
-                    if value in measures_labels:
-                        all_measures[value.label] = value.data
-        return jsonify(all_measures)
+                for value in values.itervalues():
+                    if value.label== "Battery Level":
+                        all_measures["battery_level"] = value.data
+                    elif value.label== "Relative Humidity":
+                        all_measures["humidity_value"] = value.data
+                    elif value.label== "Luminance":
+                        all_measures["luminance_value"] = value.data
+                    elif value.label== "Temperature":
+                        all_measures["temperature_value"] = value.data
+                    elif value.label== "Sensor":
+                        all_measures["motion_value"] = value.data
+
+                return jsonify(all_measures)
 
     def set_basic_sensor_nodes_configuration(self, Grp_interval, Grp_reports, Wakeup_interval):
 
