@@ -215,7 +215,11 @@ class Backend():
     def addNode(self):
 
         controller = self.network.controller
-        return jsonify(controller.begin_command_add_device())
+        if(controller.begin_command_add_device()):
+
+            return jsonify("Succes go into inclusion mode")
+        else:
+            return jsonify("Fail to go into inclusion mode")
 
     def removeNode(self):
 
