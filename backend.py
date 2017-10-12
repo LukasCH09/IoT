@@ -443,8 +443,8 @@ class Backend_with_dimmers(Backend):
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady:
                 for dimmer in node.get_dimmers():
-                node.set_dimmer(dimmer,level)
-                return "Success"
+                    node.set_dimmer(dimmer,level)
+                    return "Success"
         return "Node not found"
 
 
