@@ -390,10 +390,15 @@ class Backend_with_sensors(Backend):
         return "this method this method gets the battery measure of a specific sensor node"
 
     def get_all_Measures(self, n):
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady and n != 1 and "timestamp" + str(node.node_id) in self.timestamps:
+                values = node.get_values("All", "All", "All", "All", "All")
+                for value in values.itervalues():
+                    #val = round(value.data, 1)
+                    return jsonify(controller=name, sensor=node.node_id, location=node.location,
+                                   type=value, updateTime=self.timestamps["timestamp" + str(node.node_id)], value=val)
+        return "Node not ready or wrong sensor node !"
 
-        #### COMPLETE THIS METHOD ##############
-
-        return "this method gets all the measures of a specific sensor node"
 
     def set_basic_sensor_nodes_configuration(self, Grp_interval, Grp_reports, Wakeup_interval):
 
