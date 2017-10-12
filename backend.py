@@ -428,7 +428,7 @@ class Backend_with_dimmers(Backend):
                 values = node.get_values("All", "All", "All", "All", "All")
                 for value in values.itervalues():
                     print(value)
-                    if value.label == "Temperature":
+                    if value.label == "Level":
                         val = round(value.data, 1)
                         return jsonify(controller=name, sensor=node.node_id, location=node.location,
                                        type=value.label.lower(),
