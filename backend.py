@@ -435,12 +435,10 @@ class Backend_with_dimmers(Backend):
 
     def set_dimmer_level(self, n, level):
 
-        newValue = {};
-        newValue["id"]=72057594109853697
-        newValue["data"]=level
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady:
-                node.values(newValue)
+                for dimmer in node.get_dimmers():
+                node.set_dimmer(dimmer,level)
                 return "Success"
         return "Node not found"
 
