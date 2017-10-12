@@ -311,7 +311,7 @@ class Backend_with_sensors(Backend):
 
         nodes = {};
         for node in self.network.nodes.itervalues():
-            if node.node_id != 1:
+            if node.product_name == "MultiSensor 6":
                 nodes[node.node_id] = node.product_name
         return jsonify(nodes)
 
