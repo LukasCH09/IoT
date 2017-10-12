@@ -217,9 +217,9 @@ class Backend():
         controller = self.network.controller
         if(controller.begin_command_add_device()):
 
-            return jsonify("Succes go into inclusion mode")
+            return jsonify(result="Succes go into inclusion mode")
         else:
-            return jsonify("Fail to go into inclusion mode")
+            return jsonify(result="Fail to go into inclusion mode")
 
     def removeNode(self):
 
