@@ -424,10 +424,8 @@ class Backend_with_dimmers(Backend):
 
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady and n != 1 and "timestamp" + str(node.node_id) in self.timestamps:
-                #values = node.get_values(0x31, "User", "All", True, False)
                 values = node.get_values("All", "All", "All", "All", "All")
                 for value in values.itervalues():
-                    print(value)
                     if value.label == "Level":
                         val = round(value.data, 1)
                         return jsonify(controller=name, sensor=node.node_id, location=node.location,
@@ -436,9 +434,14 @@ class Backend_with_dimmers(Backend):
         return "Node not ready or wrong sensor node !"
 
     def set_dimmer_level(self, n, level):
-        #### COMPLETE THIS METHOD ##############
 
-        return "this method sets a dimmer's brightness level of a specific node"
+        newValue{}
+        newValue["Level"]=level
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady:
+                node.values(newValue)
+                return "Success"
+        return "Node not found"
 
 
 ###########################################################################################################################
