@@ -255,7 +255,7 @@ class Backend():
 
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady:
-                return jsonify(name=node.location)
+                return jsonify(location=node.location)
         return "Node not found or not ready"
 
         #return "this method gets the location of a specific sensor node"
