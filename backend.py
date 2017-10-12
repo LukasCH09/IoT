@@ -214,9 +214,8 @@ class Backend():
 
     def addNode(self):
 
-        #### COMPLETE THIS METHOD ##############
-
-        return "this method passes the controller to inclusion mode and gets it out of it after 20 seconds "
+        controller = self.network.controller
+        return jsonify(controller.begin_command_add_device())
 
     def removeNode(self):
 
