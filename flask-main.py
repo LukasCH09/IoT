@@ -488,6 +488,7 @@ def set_node_location():
 def set_node_name():
     if request.method=='POST':
         content = request.get_json()
+        print(content)
         if all(item in content.keys() for item in ['node_id','value']):
             node = int(content['node_id'])
             value = content['value']
