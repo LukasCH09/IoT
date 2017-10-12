@@ -186,25 +186,6 @@ class Backend():
     ############# NETWORK #################################################################################################
     #######################################################################################################################
 
-
-    def nodeToDict(self, node):
-        nodeToAdd = {}
-        nodeToAdd["Is_Ready"] = node.isReady
-        nodeToAdd["Neighbours"] = list(node.neighbors)
-        nodeToAdd["Node_ID"] = node.node_id
-        nodeToAdd["Node_location"] = node.location
-        nodeToAdd["node_name"] = node.name
-        nodeToAdd["Product_name"] = node.product_name
-        # TODO
-        nodeToAdd["Query_stage"] = node.getNodeQueryStage
-        try:
-            nodeToAdd["Query_stage_"] = (
-                float(self.queryStages[node.getNodeQueryStage]) /
-                float(self.queryStages["Complete"]) * 100.0)
-        except KeyError:
-            nodeToAdd["Query_stage_"] = 0.0
-        return nodeToAdd
-
     def network_info(self):
 
         print self.network
@@ -244,42 +225,58 @@ class Backend():
         return "this method passes the controller to exclusion mode and gets it out of it after 20 seconds "
 
     def get_nodes_list(self):
-        
-	
-        listNodes = []
+
+        nodes = {};
         for node in self.network.nodes.itervalues():
-            listNodes.append([node.node_id, node.product_name])
-        return jsonify([x for x in listNodes])
+            nodes[node.node_id] = node.product_name
+        return jsonify(nodes)
+        #return "this method returns the list of nodes ""
 
     def set_node_location(self, n, value):
 
-        #### COMPLETE THIS METHOD ##############
-
-        return " this method sets the location of a specific sensor node"
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady:
+                node.location = value
+                return "Success"
+        return "Node not found"
+        #return " this method sets the location of a specific sensor node"
 
     def set_node_name(self, n, value):
 
-        #### COMPLETE THIS METHOD ##############
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady:
+                node.name = value
+                return "Success"
+        return "Node not found"
 
-        return "this method sets the name of a specific sensor node"
+        #return "this method sets the name of a specific sensor node"
 
     def get_node_location(self, n):
 
-        #### COMPLETE THIS METHOD ##############
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady:
+                return jsonify(name=node.location)
+        return "Node not found or not ready"
 
-        return "this method gets the location of a specific sensor node"
+        #return "this method gets the location of a specific sensor node"
 
     def get_node_name(self, n):
 
-        #### COMPLETE THIS METHOD ##############
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady:
+                return jsonify(name=node.name)
+        return "Node not found or not ready"
 
-        return "this method gets the name of a specific sensor node"
+        #return "this method gets the name of a specific sensor node"
 
     def get_neighbours_list(self, n):
 
-        #### COMPLETE THIS METHOD ##############
+        for node in self.network.nodes.itervalues():
+            if node.node_id == n and node.isReady:
+                return jsonify(neighbors=list(node.neighbors))
+        return "this method gets the name of a specific sensor node"
 
-        return "this method gets the list of neighbours of a specific sensor node"
+        #return "this method gets the list of neighbours of a specific sensor node"
 
     def set_node_config_parameter(self, n, param, value, size):
 
@@ -307,12 +304,13 @@ class Backend():
 class Backend_with_sensors(Backend):
     def get_sensors_list(self):
 
-        #### COMPLETE THIS METHOD ##############
-        sensorsList = []
+        nodes = {};
         for node in self.network.nodes.itervalues():
             if node.node_id != 1:
-                sensorsList.append([node.node_id, node.product_name])
-        return jsonify([sensor for sensor in sensorsList])
+                nodes[node.node_id] = node.product_name
+        return jsonify(nodes)
+
+        #return "this method returns the list of sensors"
 
     def get_temperature(self, n):
 
@@ -350,7 +348,6 @@ class Backend_with_sensors(Backend):
 
     def get_luminance(self, n):
 
-        #### COMPLETE THIS METHOD ##############
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady and n != 1 and "timestamp" + str(node.node_id) in self.timestamps:
                 values = node.get_values(0x31, "User", "All", True, False)
@@ -365,13 +362,10 @@ class Backend_with_sensors(Backend):
         return "this method gets the luminance measure of a specific sensor node"
 
     def get_motion(self, n):
-
-        #### COMPLETE THIS METHOD ##############
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady and n != 1 and "timestamp" + str(node.node_id) in self.timestamps:
                 values = node.get_values(0x30, "User", "All", True, False)
                 for value in values.itervalues():
-                    print(value.label)
                     if value.label == "Sensor":
                         val = round(value.data, 1)
                         #        if len(node.location) < 3:
@@ -382,13 +376,11 @@ class Backend_with_sensors(Backend):
         return "this method this method gets the motion measure of a specific sensor node"
 
     def get_battery(self, n):
-
-        #### COMPLETE THIS METHOD ##############
         for node in self.network.nodes.itervalues():
             if node.node_id == n and node.isReady and n != 1 and "timestamp" + str(node.node_id) in self.timestamps:
                 value = node.get_battery_level()
                 return jsonify(controller=name, sensor=node.node_id, location=node.location,
-                     updateTime=self.timestamps["timestamp" + str(node.node_id)], value=value)
+                               updateTime=self.timestamps["timestamp" + str(node.node_id)], value=value)
 
         return "this method this method gets the battery measure of a specific sensor node"
 
@@ -416,13 +408,11 @@ class Backend_with_dimmers(Backend):
         Backend.__init__(self)
 
     def get_dimmers(self):
-        #### COMPLETE THIS METHOD ##############
 	dimmersList = []
         for node in self.network.nodes.itervalues():
             if node.product_name == 'ZE27':
                 dimmersList.append([node.node_id, node.product_name])
         return jsonify([dimmer for dimmer in dimmersList])
-
 
     def get_dimmer_level(self, n):
         #### COMPLETE THIS METHOD ##############
