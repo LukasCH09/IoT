@@ -1,10 +1,10 @@
 #!flask/bin/python
-from flask import Flask, request
+from flask import Flask, request, logging
 from KNX import *
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/', strict_slashes=False)
 def index():
     return "Hello, World!"
 
@@ -97,5 +97,8 @@ def get_beacon_devices(major_id):
 '''
 
 if __name__ == '__main__':
-    app.run(debug=True, port='5500')
+    logging.basicConfig(level=logging.INFO)
+    logging.info('hello')
+    app.run(debug=True, port=5500)
+
 

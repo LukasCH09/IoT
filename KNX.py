@@ -257,7 +257,12 @@ def process(argv):
         data = c1.read_data(data, size, apci, dest_addr_group)
         print('The value is :', data)
 
-
 if __name__ == "__main__":
     # run in terminal with 'python3 KNX.py arg1 arg2 arg3 arg4'
     process(sys.argv[1:])
+
+    '''
+    Example:
+    python3 KNX.py 200 2 2 3/4/1  # set store 1 to 200
+    python3 KNX.py 50 2 2 0/4/1  # set valve 1 to 50
+    '''
