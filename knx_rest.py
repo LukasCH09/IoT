@@ -12,14 +12,13 @@ def index():
 def setStores(store_id):
     #200 2 2 3/4/1
     content = request.get_json()
-    if all(item in content.keys() for item in ['value']):
-        value = int(content['value']) * 255/100
-        size = 2
-        acpi = 2
-        group = '3/4/' + store_id
-        command = value + ' ' + size + ' ' + acpi + ' ' + group
-        process(command)
-    return 'wrong input'
+    value = int(content['value']) * 255/100
+    size = 2
+    acpi = 2
+    group = '3/4/' + store_id
+    command = value + ' ' + size + ' ' + acpi + ' ' + group
+    process(command)
+    #return 'wrong input'
 
 #######################################################################################################################
 ############# BEACONS #################################################################################################
@@ -99,6 +98,6 @@ def get_beacon_devices(major_id):
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info('hello')
-    app.run(debug=True, port=5500)
+    app.run(host='::', debug=True, port=5500)
 
 
