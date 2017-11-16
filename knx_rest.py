@@ -1,6 +1,7 @@
 #!flask/bin/python
 from flask import Flask, request, logging
 from KNX import *
+import logging
 
 app = Flask(__name__)
 
@@ -12,7 +13,7 @@ def index():
 def setStores(store_id):
     #200 2 2 3/4/1
     content = request.get_json()
-    value = int(content['value']) * 255/100
+    value = int(content['value'])# * 255/100
     size = 2
     acpi = 2
     group = '3/4/' + store_id
