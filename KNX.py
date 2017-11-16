@@ -229,21 +229,13 @@ class connectionKNX:
         conn_resp_object = knxnet.decode_frame(data_recv)
         return conn_resp_object
 
-
-def process(argv):
-    data = int(argv[0])
-    size = int(argv[1])
-    apci = int(argv[2])
-    grp_add = argv[3]
-
-    print(grp_add[0])
-
-    print('data: ', argv[0])
-    print('size: ', argv[1])
-    print('acpi: ', argv[2])
-    print('group: ', argv[3])
+def process(data, size, apci, grp_add):
 
     dest_addr_group = knxnet.GroupAddress.from_str(grp_add)
+    print('data: ', data)
+    print('size: ', size)
+    print('acpi: ', apci)
+    print('group: ', grp_add)
 
     c1 = connectionKNX("127.0.0.1", 3671)
 
@@ -257,9 +249,25 @@ def process(argv):
         data = c1.read_data(data, size, apci, dest_addr_group)
         print('The value is :', data)
 
+def main(argv):
+
+    data = int(argv[0])
+    size = int(argv[1])
+    apci = int(argv[2])
+    grp_add = argv[3]
+
+    print(grp_add[0])
+
+    print('data: ', argv[0])
+    print('size: ', argv[1])
+    print('acpi: ', argv[2])
+    print('group: ', argv[3])
+    process(data, size, acpi, grp_add)
+
+
 if __name__ == "__main__":
     # run in terminal with 'python3 KNX.py arg1 arg2 arg3 arg4'
-    process(sys.argv[1:])
+    main(sys.argv[1:])
 
     '''
     Example:
