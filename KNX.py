@@ -239,7 +239,7 @@ def process(data, size, apci, grp_add):
     print('acpi: ', apci)
     print('group: ', grp_add)
 
-    res = jsonify(result="Success write data")
+    res = jsonify(result="Success write data [just a test!]")
 
     '''
     c1 = connectionKNX("127.0.0.1", 3671)
@@ -247,16 +247,19 @@ def process(data, size, apci, grp_add):
     # set action
     c1.action = grp_add[0]
 
-    if c1.action < '4':
+    if c1.action == '2':
         c1.send_data(data, size, apci, dest_addr_group)
         #ToDo: check if value was written successfully
         res = jsonify(result="Success write data")
 
-    else:
+    elif c1.action == 0:
         data = c1.read_data(data, size, apci, dest_addr_group)
         print('The value is :', data)
         #ToDo: check if value was read successfully
         res = jsonify(result=data)
+    else:
+        res = jsonify(result="no valid action specified. "
+                             "(Valid actions are [0]:read, [2]:control")
     '''
     return res
 

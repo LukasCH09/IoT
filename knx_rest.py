@@ -9,15 +9,25 @@ app = Flask(__name__)
 def index():
     return "Hello, World!"
 
-@app.route('/store/<int:store_id>', methods=['POST'], strict_slashes=False)
-def setStores(store_id):
+@app.route('/store/<int:floor_id>/<int:store_id>', methods=['POST'], strict_slashes=False)
+def setStores(floor_id, store_id):
     #200 2 2 3/4/1
     content = request.get_json()
     value =int( int(content['value']) * 255/100)
     size = '2'
     acpi = '2'
-    group = '3/4/' + str(store_id)
-    command = str(value) + ' ' + size + ' ' + acpi + ' ' + group
+    group = '3/' + floor_id + '/' + str(store_id)
+    res = process(value, size, acpi, group)
+    return res
+
+@app.route('/radiator/<int:floor_id>/<int:radiator_id>', methods=['POST'], strict_slashes=False)
+def setStores(floor_id, radiator_id):
+    #200 2 2 3/4/1
+    content = request.get_json()
+    value =int( int(content['value']) * 255/100)
+    size = '2'
+    acpi = '2'
+    group = '0/' + floor_id + '/' + str(radiator_id)
     res = process(value, size, acpi, group)
     return res
 
