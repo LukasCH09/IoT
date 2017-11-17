@@ -231,14 +231,17 @@ class connectionKNX:
         conn_resp_object = knxnet.decode_frame(data_recv)
         return conn_resp_object
 
-def process(data, size, apci, grp_add):
 
+def process(data, size, apci, grp_add):
     dest_addr_group = knxnet.GroupAddress.from_str(grp_add)
     print('data: ', data)
     print('size: ', size)
     print('acpi: ', apci)
     print('group: ', grp_add)
 
+    res = jsonify(result="Success write data")
+
+    '''
     c1 = connectionKNX("127.0.0.1", 3671)
 
     # set action
@@ -247,16 +250,18 @@ def process(data, size, apci, grp_add):
     if c1.action < '4':
         c1.send_data(data, size, apci, dest_addr_group)
         #ToDo: check if value was written successfully
-        return jsonify(result="Success write data")
+        res = jsonify(result="Success write data")
 
     else:
         data = c1.read_data(data, size, apci, dest_addr_group)
         print('The value is :', data)
         #ToDo: check if value was read successfully
-        return jsonify(result=data)
+        res = jsonify(result=data)
+    '''
+    return res
+
 
 def main(argv):
-
     data = int(argv[0])
     size = int(argv[1])
     apci = int(argv[2])
