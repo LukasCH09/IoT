@@ -16,7 +16,7 @@ def setStores(floor_id, store_id):
     value =int( int(content['value']) * 255/100)
     size = '2'
     acpi = '2'
-    group = '3/' + floor_id + '/' + str(store_id)
+    group = '3/' + str(floor_id)+ '/' + str(store_id)
     res = process(value, size, acpi, group)
     return res
 
@@ -27,7 +27,7 @@ def setStores(floor_id, radiator_id):
     value =int( int(content['value']) * 255/100)
     size = '2'
     acpi = '2'
-    group = '0/' + floor_id + '/' + str(radiator_id)
+    group = '0/' + str(floor_id) + '/' + str(radiator_id)
     res = process(value, size, acpi, group)
     return res
 
