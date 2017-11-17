@@ -5,31 +5,34 @@ import logging
 
 app = Flask(__name__)
 
+
 @app.route('/', strict_slashes=False)
 def index():
     return "Hello, World!"
 
+
 @app.route('/store/<int:floor_id>/<int:store_id>', methods=['POST'], strict_slashes=False)
-def setStores(floor_id, store_id):
-    #200 2 2 3/4/1
+def setStore(floor_id, store_id):
+    # 200 2 2 3/4/1
     content = request.get_json()
-    value =int( int(content['value']) * 255/100)
+    value = int(int(content['value']) * 255 / 100)
     size = '2'
     acpi = '2'
-    group = '3/' + str(floor_id)+ '/' + str(store_id)
+    group = '3/' + str(floor_id) + '/' + str(store_id)
     res = process(value, size, acpi, group)
     return res
 
 @app.route('/radiator/<int:floor_id>/<int:radiator_id>', methods=['POST'], strict_slashes=False)
-def setStores(floor_id, radiator_id):
-    #200 2 2 3/4/1
+def setRadiator(floor_id, radiator_id):
+    # 200 2 2 3/4/1
     content = request.get_json()
-    value =int( int(content['value']) * 255/100)
+    value = int(int(content['value']) * 255 / 100)
     size = '2'
     acpi = '2'
     group = '0/' + str(floor_id) + '/' + str(radiator_id)
     res = process(value, size, acpi, group)
     return res
+
 
 #######################################################################################################################
 ############# BEACONS #################################################################################################
@@ -110,5 +113,3 @@ if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO)
     logging.info('hello')
     app.run(host='::', debug=True, port=5500)
-
-
