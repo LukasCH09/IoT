@@ -2,6 +2,8 @@
 import socket
 import sys
 
+from flask import jsonify
+
 from knxnet import *
 from knxnet import knxnet
 
@@ -244,10 +246,14 @@ def process(data, size, apci, grp_add):
 
     if c1.action < '4':
         c1.send_data(data, size, apci, dest_addr_group)
+        #ToDo: check if value was written successfully
+        return jsonify(result="Success write data")
 
     else:
         data = c1.read_data(data, size, apci, dest_addr_group)
         print('The value is :', data)
+        #ToDo: check if value was read successfully
+        return jsonify(result=data)
 
 def main(argv):
 

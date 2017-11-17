@@ -18,8 +18,8 @@ def setStores(store_id):
     acpi = '2'
     group = '3/4/' + str(store_id)
     command = str(value) + ' ' + size + ' ' + acpi + ' ' + group
-    process(value, size, acpi, group)
-    #return 'wrong input'
+    res = process(value, size, acpi, group)
+    return res
 
 #######################################################################################################################
 ############# BEACONS #################################################################################################
