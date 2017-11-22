@@ -276,7 +276,7 @@ def main(argv):
     print('size: ', argv[1])
     print('acpi: ', argv[2])
     print('group: ', argv[3])
-    process(data, size, acpi, grp_add)
+    process(data, size, apci, grp_add)
 
 
 if __name__ == "__main__":
