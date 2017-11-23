@@ -10,7 +10,7 @@ def setStore(floor_id, store_id):
     # Example values: 200 2 2 3/4/1
     content = request.get_json()
     value = int(int(content['value']) * 255 / 100)
-    size = int(content['size']) #'2'
+    size = '2'
     acpi = '2'
     group = '3/' + str(floor_id) + '/' + str(store_id)
     res = process(value, size, acpi, group)
@@ -21,7 +21,7 @@ def setRadiator(floor_id, radiator_id):
     # 200 2 2 3/4/1
     content = request.get_json()
     value = int(int(content['value']) * 255 / 100)
-    size = int(content['size'])#'2'
+    size = '2'
     acpi = '2'
     group = '0/' + str(floor_id) + '/' + str(radiator_id)
     res = process(value, size, acpi, group)
